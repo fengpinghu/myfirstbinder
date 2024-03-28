@@ -16,6 +16,9 @@ bash setup.sh
 ## step 3 - run kubectl to interact with cluster
 
 ```sh
-kubectl get pod
+kubectl create -f hellopod.yaml
+kubectl get pod 
+
+kubectl exec -it job/hello -- /bin/sh
 ```
 
