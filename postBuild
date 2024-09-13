@@ -1,2 +1,4 @@
 #!/bin/bash
 conda install -y python-graphviz
+apt-get update
+apt-get install -y vim
