@@ -1,3 +1,4 @@
 #!/bin/bash
 conda install -y python-graphviz
+mkdir -p /home/jovyan/.config/dask/
 cp -f /home/jovyan/daskextension.yaml /home/jovyan/.config/dask/daskextension.yaml
