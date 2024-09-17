@@ -1,0 +1,8 @@
+labextension:
+  factory:
+    module: 'dask_gateway'
+    class: 'GatewayCluster'
+    args: []
+    kwargs:
+      address: 'http://daskgw.af.uchicago.edu'
+      auth: 'jupyterhub'
