@@ -6,3 +6,5 @@ labextension:
     kwargs:
       address: 'http://daskgw.af.uchicago.edu'
       auth: 'jupyterhub'
+      cluster_options:
+        image: harbor.tempest.uchicago.edu/binderhub/fengpinghu-2dmyfirstbinder-3437b6:dask
