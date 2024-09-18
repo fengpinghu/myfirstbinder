@@ -1,5 +1,6 @@
 #!/bin/bash
 conda install -y python-graphviz
 mkdir -p /home/jovyan/.config/dask/
+mkdir -p /home/jovyan/.jupyter
 cp -f /home/jovyan/labextension.yaml /home/jovyan/.config/dask/labextension.yaml
 cp -f /home/jovyan/jupyter_server_config.py /home/jovyan/.jupyter/jupyter_server_config.py
