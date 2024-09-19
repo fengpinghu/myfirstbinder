@@ -111,7 +111,7 @@ class ProxyHandler(WebSocketHandlerMixin, JupyterHandler):
     def __init__(self, *args, **kwargs):
         self.proxy_base = ""
         self.absolute_url = kwargs.pop("absolute_url", False)
-        self.host_allowlist = kwargs.pop("host_allowlist", ["localhost", "127.0.0.1", "daskgw.af.uchicago.edu"])
+        self.host_allowlist = kwargs.pop("host_allowlist", ["localhost", "127.0.0.1", "daskgw.af.uchicago.edu","daskgateway.af.uchicago.edu"])
         self.rewrite_response = kwargs.pop(
             "rewrite_response",
             tuple(),
