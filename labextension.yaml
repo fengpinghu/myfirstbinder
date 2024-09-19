@@ -6,3 +6,7 @@ labextension:
     kwargs:
       address: 'http://daskgw.af.uchicago.edu'
       auth: 'jupyterhub'
+
+distributed:
+  dashboard:
+    link: "https://daskgateway.af.uchicago.edu/clusters/{host}/status"
