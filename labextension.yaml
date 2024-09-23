@@ -4,9 +4,9 @@ labextension:
     class: 'GatewayCluster'
     args: []
     kwargs:
-      address: 'http://daskgw.af.uchicago.edu'
+      address: 'https://daskgateway.af.uchicago.edu'
       auth: 'jupyterhub'
 
-distributed:
-  dashboard:
-    link: "https://daskgateway.af.uchicago.edu/clusters/{host}/status"
+#distributed:
+#  dashboard:
+#    link: "https://daskgateway.af.uchicago.edu/clusters/{host}/status"
