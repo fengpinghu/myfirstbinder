@@ -1,0 +1,3 @@
+distributed:
+  dashboard:
+    link: "https://daskgateway.af.uchicago.edu/clusters/{host}/status"
