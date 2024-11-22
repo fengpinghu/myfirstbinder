@@ -4,7 +4,7 @@ labextension:
     class: 'GatewayCluster'
     args: []
     kwargs:
-      address: 'http://daskgateway.af.uchicago.edu'
+      address: 'http://daskgw.af.uchicago.edu'
       auth: 'jupyterhub'
 
 #distributed:
