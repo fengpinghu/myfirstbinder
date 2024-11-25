@@ -6,3 +6,4 @@ cp -f /home/jovyan/labextension.yaml /home/jovyan/.config/dask/labextension.yaml
 cp -f /home/jovyan/dask.yaml /home/jovyan/.config/dask/dask.yaml
 cp -f /home/jovyan/jupyter_server_config.py /home/jovyan/.jupyter/jupyter_server_config.py
 cp -f /home/jovyan/handlers.py /srv/conda/envs/notebook/lib/python3.11/site-packages/jupyter_server_proxy/handlers.py  
+cp -f /home/jovyan/dashboardhandler.py /srv/conda/envs/notebook/lib/python3.11/site-packages/dask_labextension/dashboardhandler.py
