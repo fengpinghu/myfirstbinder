@@ -69,7 +69,8 @@ class DaskClusterManager:
             for model in dask.config.get("labextension.initial"):
                 await self.start_cluster(configuration=model)
             self.gateway = Gateway(
-                    address="https://jupyterhub.af.uchicago.edu/services/dask-gateway/",
+                    address="http://traefik-dask-gateway.dask-gateway/services/dask-gateway/",
+                    public_address="https://jupyterhub.af.uchicago.edu/services/dask-gateway/",
                     auth="jupyterhub"
                     )
             clusters = self.gateway.list_clusters()
@@ -134,12 +135,8 @@ class DaskClusterManager:
         """
         if not cluster_id:
             cluster_id = str(uuid4())
-        gateway = Gateway(
-                    address="https://jupyterhub.af.uchicago.edu/services/dask-gateway/",
-                    auth="jupyterhub"
-                    )
-        print(f"connecting:{name}")
-        cluster = gateway.connect(name)
+
+        cluster = self.gateway.connect(name)
         info = cluster.scheduler_info
         cores = sum(d["nthreads"] for d in info["workers"].values())
         print(f"cores:{cores}")
