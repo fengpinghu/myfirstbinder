@@ -83,7 +83,7 @@ class DaskClusterManager:
             for model in dask.config.get("labextension.initial"):
                 await self.start_cluster(configuration=model)
 
-            self._load_clusters()
+            _load_clusters()
 
             self.initialized.set_result(self)
 
