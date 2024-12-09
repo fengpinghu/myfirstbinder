@@ -134,8 +134,12 @@ class DaskClusterManager:
         """
         if not cluster_id:
             cluster_id = str(uuid4())
-
-        cluster = self.gateway.connect(name)
+        gateway = Gateway(
+                    address="https://jupyterhub.af.uchicago.edu/services/dask-gateway/",
+                    auth="jupyterhub"
+                    )
+        print(f"connecting:{name}")
+        cluster = gateway.connect(name)
         info = cluster.scheduler_info
         cores = sum(d["nthreads"] for d in info["workers"].values())
         print(f"cores:{cores}")
