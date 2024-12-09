@@ -139,12 +139,9 @@ class DaskClusterManager:
 
         self._n_clusters += 1
 
-        # Check for a name in the config
-        if not configuration.get("name"):
-            cluster_type = type(cluster).__name__
-            cluster_name = f"{cluster_type} {self._n_clusters}"
-        else:
-            cluster_name = configuration["name"]
+        # 
+        cluster_type = type(cluster).__name__
+        cluster_name = f"{cluster_type} {self._n_clusters}"
 
         # Check if the cluster was started adaptively
         if adaptive:
