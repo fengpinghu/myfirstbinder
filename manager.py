@@ -65,18 +65,25 @@ class DaskClusterManager:
 
         self.initialized = Future()
 
+        def _load_clusters():
+            """Load existing clusters"""
+            #module = importlib.import_module(dask.config.get("labextension.factory.module"))
+            #Cluster = getattr(module, dask.config.get("labextension.factory.class"))
+        
+            kwargs = dask.config.get("labextension.factory.kwargs")
+            kwargs = {key.replace("-", "_"): kwargs[key] for key in kwargs.keys() & {"address","public_address","auth"}}
+            if dask.config.get("labextension.factory.class") == 'GatewayCluster':
+                self.gateway = Gateway(**kwargs)
+                clusters = self.gateway.list_clusters()
+                for c in clusters:
+                    print(f"cluster: {c.name}")
+                    self._load_cluster(name=c.name)
+
         async def start_clusters():
             for model in dask.config.get("labextension.initial"):
                 await self.start_cluster(configuration=model)
-            self.gateway = Gateway(
-                    address="http://traefik-dask-gateway.dask-gateway/services/dask-gateway/",
-                    public_address="https://jupyterhub.af.uchicago.edu/services/dask-gateway/",
-                    auth="jupyterhub"
-                    )
-            clusters = self.gateway.list_clusters()
-            for c in clusters:
-                print(f"cluster: {c.name}")
-                self.load_cluster(name=c.name)
+
+            self._load_clusters()
 
             self.initialized.set_result(self)
 
@@ -118,7 +125,7 @@ class DaskClusterManager:
         self._cluster_names[cluster_id] = cluster_name
         return make_cluster_model(cluster_id, cluster_name, cluster, adaptive=adaptive)
 
-    def load_cluster(
+    def _load_cluster(
         self, cluster_id: str = "", name: str = ""
     ) -> ClusterModel:
         """
