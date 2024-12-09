@@ -74,6 +74,7 @@ class DaskClusterManager:
                     )
             clusters = self.gateway.list_clusters()
             for c in clusters:
+                print(f"cluster: {c.name}")
                 self.load_cluster(name=c.name)
 
             self.initialized.set_result(self)
@@ -135,6 +136,10 @@ class DaskClusterManager:
             cluster_id = str(uuid4())
 
         cluster = self.gateway.connect(name)
+        info = cluster.scheduler_info
+        cores = sum(d["nthreads"] for d in info["workers"].values())
+        print(f"cores:{cores}")
+
         adaptive = None
 
         self._n_clusters += 1
