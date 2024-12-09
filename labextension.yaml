@@ -4,7 +4,8 @@ labextension:
     class: 'GatewayCluster'
     args: []
     kwargs:
-      address: 'http://daskgw.af.uchicago.edu'
+      public_address: 'https://jupyterhub.af.uchicago.edu/services/dask-gateway/'
+      address: 'http://traefik-dask-gateway.dask-gateway/services/dask-gateway/'
       auth: 'jupyterhub'
 
 #distributed:
