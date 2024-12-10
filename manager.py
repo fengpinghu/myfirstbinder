@@ -143,7 +143,7 @@ class DaskClusterManager:
         if not cluster_id:
             cluster_id = str(uuid4())
 
-        cluster = self.gateway.connect(name)
+        cluster = self.gateway.connect(name, shutdown_on_close=True)
         info = cluster.scheduler_info
         cores = sum(d["nthreads"] for d in info["workers"].values())
         print(f"cores:{cores}")
