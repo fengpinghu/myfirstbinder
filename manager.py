@@ -65,7 +65,7 @@ class DaskClusterManager:
 
         self.initialized = Future()
 
-        def _load_clusters():
+        async def _load_clusters():
             """Load existing clusters"""
             #module = importlib.import_module(dask.config.get("labextension.factory.module"))
             #Cluster = getattr(module, dask.config.get("labextension.factory.class"))
@@ -73,8 +73,8 @@ class DaskClusterManager:
             kwargs = dask.config.get("labextension.factory.kwargs")
             kwargs = {key.replace("-", "_"): kwargs[key] for key in kwargs.keys() & {"address","public_address","auth"}}
             if dask.config.get("labextension.factory.class") == 'GatewayCluster':
-                self.gateway = Gateway(**kwargs)
-                clusters = self.gateway.list_clusters()
+                self.gateway = Gateway(**kwargs, asynchronous=True)
+                clusters = await self.gateway.list_clusters()
                 for c in clusters:
                     print(f"cluster: {c.name}")
                     self._load_cluster(name=c.name)
@@ -83,7 +83,7 @@ class DaskClusterManager:
             for model in dask.config.get("labextension.initial"):
                 await self.start_cluster(configuration=model)
 
-            _load_clusters()
+            await _load_clusters()
 
             self.initialized.set_result(self)
 
