@@ -77,7 +77,7 @@ class DaskClusterManager:
                 clusters = await self.gateway.list_clusters()
                 for c in clusters:
                     print(f"cluster: {c.name}")
-                    self._load_cluster(name=c.name)
+                    await self._load_cluster(name=c.name)
 
         async def start_clusters():
             for model in dask.config.get("labextension.initial"):
@@ -125,7 +125,7 @@ class DaskClusterManager:
         self._cluster_names[cluster_id] = cluster_name
         return make_cluster_model(cluster_id, cluster_name, cluster, adaptive=adaptive)
 
-    def _load_cluster(
+    async def _load_cluster(
         self, cluster_id: str = "", name: str = ""
     ) -> ClusterModel:
         """
@@ -143,7 +143,7 @@ class DaskClusterManager:
         if not cluster_id:
             cluster_id = str(uuid4())
 
-        cluster = self.gateway.connect(name, shutdown_on_close=True)
+        cluster = await self.gateway.connect(name, shutdown_on_close=True)
         info = cluster.scheduler_info
         cores = sum(d["nthreads"] for d in info["workers"].values())
         print(f"cores:{cores}")
