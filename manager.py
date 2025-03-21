@@ -345,7 +345,7 @@ def make_cluster_model(
         cores=cores,
     )
     if adaptive:
-        model["adapt"] = {"minimum": adaptive.minimum, "maximum": adaptive.maximum}
+        model["adapt"] = {"minimum": 0, "maximum": 50}
 
     return model
 
