@@ -267,7 +267,7 @@ class DaskClusterManager:
             return model
 
         # Otherwise, rescale the model.
-        adaptive = cluster.adapt_cluster(minimum=minimum, maximum=maximum)
+        adaptive = cluster.adapt(minimum=minimum, maximum=maximum)
         self._adaptives[cluster_id] = adaptive
         return make_cluster_model(cluster_id, name, cluster, adaptive)
 
