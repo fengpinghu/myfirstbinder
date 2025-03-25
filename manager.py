@@ -10,7 +10,7 @@ from uuid import uuid4
 
 import dask
 from dask.utils import format_bytes
-from dask.distributed import Adaptive
+#from dask.distributed import Adaptive
 from tornado.ioloop import IOLoop
 from tornado.concurrent import Future
 from dask_gateway import Gateway
@@ -23,6 +23,10 @@ ClusterModel = Dict[str, Any]
 # A type stub for a Dask cluster.
 Cluster = Any
 
+class Adaptive:
+    def __init__(self, minimum, maximum):
+        self.minimum = minimum
+        self.maximum = maximum
 
 async def make_cluster(configuration: dict) -> Cluster:
     module = importlib.import_module(dask.config.get("labextension.factory.module"))
@@ -42,6 +46,10 @@ async def make_cluster(configuration: dict) -> Cluster:
     adaptive = None
     if configuration.get("adapt"):
         adaptive = cluster.adapt(**configuration.get("adapt"))
+        # adapt of gateway cluster doesn't return a valid adaptive object, 
+        # so we just keep the state on the client before we can figure out 
+        # a way to retrieve that from the server side 
+        adaptive = Adaptive(**configuration.get("adapt")) 
     elif configuration.get("workers") is not None:
         t = cluster.scale(configuration.get("workers"))
         if isawaitable(t):
@@ -268,6 +276,7 @@ class DaskClusterManager:
 
         # Otherwise, rescale the model.
         adaptive = cluster.adapt(minimum=minimum, maximum=maximum)
+        adaptive = Adaptive(minimum=minimum, maximum=maximum)
         self._adaptives[cluster_id] = adaptive
         return make_cluster_model(cluster_id, name, cluster, adaptive)
 
