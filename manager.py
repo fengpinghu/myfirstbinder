@@ -224,6 +224,7 @@ class DaskClusterManager:
         Returns
         cluster_models : A list of the dask cluster models known to the manager.
         """
+        print("list_clusters called")
         return [
             make_cluster_model(
                 cluster_id,
