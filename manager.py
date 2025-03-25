@@ -291,7 +291,7 @@ class DaskClusterManager:
 
         adaptive = Adaptive(minimum=minimum, maximum=maximum)
         self._adaptives[cluster_id] = adaptive
-        return make_cluster_model(cluster_id, name, cluster, adaptive)
+        return make_cluster_model(cluster_id, name, synccluster, adaptive)
 
     async def close(self):
         """Close all clusters and cleanup"""
