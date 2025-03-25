@@ -14,7 +14,7 @@ from dask.utils import format_bytes
 from tornado.ioloop import IOLoop
 from tornado.concurrent import Future
 from dask_gateway import Gateway
-
+import asyncio
 
 # A type for a dask cluster model: a serializable
 # representation of information about the cluster.
@@ -275,7 +275,16 @@ class DaskClusterManager:
             return model
 
         # Otherwise, rescale the model.
-        cluster.adapt(minimum=minimum, maximum=maximum)
+        #cluster.adapt(minimum=minimum, maximum=maximum)
+
+        future = asyncio.run_coroutine_threadsafe(
+            cluster._adapt_cluster(minimum=minimum, maximum=maximum), self.loop.asyncio_loop
+        )
+        try:
+            print( future.result() )
+        except BaseException:
+            future.cancel()
+            raise
 
         adaptive = Adaptive(minimum=minimum, maximum=maximum)
         self._adaptives[cluster_id] = adaptive
