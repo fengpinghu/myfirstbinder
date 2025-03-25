@@ -350,6 +350,7 @@ def make_cluster_model(
     # once python 3.7 is in wider use.
     try:
         info = cluster.scheduler_info
+        print(f"scheduler: {info}")
     except AttributeError:
         info = cluster.scheduler.identity()
     try:
