@@ -278,11 +278,12 @@ class DaskClusterManager:
         #cluster.adapt(minimum=minimum, maximum=maximum)
 
         future = asyncio.run_coroutine_threadsafe(
-            cluster.gateway._adapt_cluster(cluster.name,minimum=minimum, maximum=maximum), cluster.loop.asyncio_loop
+            cluster.gateway._adapt_cluster(cluster.name,minimum=minimum, maximum=maximum), cluster.gateway.loop.asyncio_loop
         )
         try:
             print( future.result() )
         except BaseException:
+            print( "future.cancel")
             future.cancel()
             raise
 
