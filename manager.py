@@ -14,7 +14,7 @@ from dask.utils import format_bytes
 from tornado.ioloop import IOLoop
 from tornado.concurrent import Future
 from dask_gateway import Gateway
-import asyncio
+import inspect
 
 # A type for a dask cluster model: a serializable
 # representation of information about the cluster.
@@ -348,6 +348,10 @@ def make_cluster_model(
     """
     # This would be a great target for a dataclass
     # once python 3.7 is in wider use.
+    caller_frame = inspect.stack()[1]
+    caller_name = caller_frame.function
+    print(f"Caller function: {caller_name}")
+
     try:
         info = cluster.scheduler_info
         print(f"scheduler: {info}")
