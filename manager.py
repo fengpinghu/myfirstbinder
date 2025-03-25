@@ -254,7 +254,7 @@ class DaskClusterManager:
             await t
         return make_cluster_model(cluster_id, name, cluster, adaptive=None)
 
-    async def adapt_cluster(
+    def adapt_cluster(
         self, cluster_id: str, minimum: int, maximum: int
     ) -> Union[ClusterModel, None]:
         cluster = self._clusters.get(cluster_id)
@@ -275,10 +275,10 @@ class DaskClusterManager:
             return model
 
         # Otherwise, rescale the model.
-        t = cluster.adapt(minimum=minimum, maximum=maximum)
-        if isawaitable(t):
-            await t
-
+        #t = cluster.adapt(minimum=minimum, maximum=maximum)
+        print(f"cluster: {cluster.name}")
+        synccluster = Gateway().connect(cluster.name)
+        synccluster.adapt(minimum=minimum, maximum=maximum)
         #future = asyncio.run_coroutine_threadsafe(
         #    cluster.gateway._adapt_cluster(cluster.name,minimum=minimum, maximum=maximum), cluster.gateway.loop.asyncio_loop
         #)
