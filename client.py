@@ -1118,6 +1118,7 @@ class GatewayCluster:
     async def _watch_worker_status(self, comm):
         # We don't want to hold on to a ref to self, otherwise this will
         # leave a dangling reference and prevent garbage collection.
+        logger.warning("_watch_worker_status loop -1", exc_info=True)
         ref_self = weakref.ref(self)
         self = None
         try:
