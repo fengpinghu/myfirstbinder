@@ -278,8 +278,9 @@ class DaskClusterManager:
         # Otherwise, rescale the model.
         #t = cluster.adapt(minimum=minimum, maximum=maximum)
         print(f"cluster: {cluster.name}")
-        synccluster = Gateway().connect(cluster.name)
-        synccluster.adapt(minimum=minimum, maximum=maximum)
+        #synccluster = Gateway().connect(cluster.name)
+        #synccluster.adapt(minimum=minimum, maximum=maximum)
+        Gateway().connect(cluster.name).adapt(minimum=minimum, maximum=maximum)
         #future = asyncio.run_coroutine_threadsafe(
         #    cluster.gateway._adapt_cluster(cluster.name,minimum=minimum, maximum=maximum), cluster.gateway.loop.asyncio_loop
         #)
