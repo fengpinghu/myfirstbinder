@@ -359,9 +359,10 @@ def make_cluster_model(
     caller_name = caller_frame.function
     print(f"Caller function: {caller_name}")
 
-    print(f"cluster: {cluster}")
+    print(f"cluster: {cluster_name}, {cluster_id}")
     try:
-        info = cluster.scheduler_info
+        #info = cluster.scheduler_info
+        info = Gateway().connect(cluster_name).scheduler_info
         print(f"scheduler: {info}")
     except AttributeError:
         info = cluster.scheduler.identity()
