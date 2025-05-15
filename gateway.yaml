@@ -1,0 +1,5 @@
+gateway:
+  address: 'https://jupyterhub.af.uchicago.edu/services/dask-gateway/'
+  proxy_address: 'gateway://daskgw.af.uchicago.edu:80'
+  auth: 
+    type: 'jupyterhub'
