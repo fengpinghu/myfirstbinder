@@ -362,7 +362,7 @@ def make_cluster_model(
     print(f"cluster: {cluster_name}, {cluster_id}")
     try:
         #info = cluster.scheduler_info
-        info = Gateway().connect(cluster.name,shutdown_on_close=False).scheduler_info
+        info = Gateway(asynchronous=True).connect(cluster.name).scheduler_info
         print(f"scheduler: {info}")
     except AttributeError:
         info = cluster.scheduler.identity()
