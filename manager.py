@@ -14,8 +14,7 @@ from dask.utils import format_bytes
 from tornado.ioloop import IOLoop
 from tornado.concurrent import Future
 from dask_gateway import Gateway
-import inspect
-import asyncio
+
 
 # A type for a dask cluster model: a serializable
 # representation of information about the cluster.
@@ -29,6 +28,33 @@ class Adaptive:
         self.minimum = minimum
         self.maximum = maximum
 
+
+import os
+
+def save_tls_credentials(cluster):
+    """
+    Saves the TLS certificate and key of a Dask-Gateway cluster object to files
+    in the user's ~/.config/dask/ directory.
+
+    Args:
+        cluster: A Dask-Gateway cluster object with `tls_cert`, `tls_key`, and `name` attributes.
+    """
+    config_dir = os.path.join(os.path.expanduser("~"), ".config", "dask")
+    os.makedirs(config_dir, exist_ok=True)
+
+    cert_path = os.path.join(config_dir, f"cert_{cluster.name}")
+    key_path = os.path.join(config_dir, f"key_{cluster.name}")
+
+    with open(cert_path, "w") as cert_file:
+        cert_file.write(cluster.tls_cert)
+
+    with open(key_path, "w") as key_file:
+        key_file.write(cluster.tls_key)
+
+    print(f"Saved TLS cert to {cert_path}")
+    print(f"Saved TLS key to {key_path}")
+    
+
 async def make_cluster(configuration: dict) -> Cluster:
     module = importlib.import_module(dask.config.get("labextension.factory.module"))
     Cluster = getattr(module, dask.config.get("labextension.factory.class"))
@@ -39,6 +65,8 @@ async def make_cluster(configuration: dict) -> Cluster:
     cluster = await Cluster(
         *dask.config.get("labextension.factory.args"), **kwargs, asynchronous=True
     )
+
+    save_tls_credentials(cluster)
 
     configuration = dask.config.merge(
         dask.config.get("labextension.default"), configuration
@@ -225,7 +253,6 @@ class DaskClusterManager:
         Returns
         cluster_models : A list of the dask cluster models known to the manager.
         """
-        print("list_clusters called")
         return [
             make_cluster_model(
                 cluster_id,
@@ -280,21 +307,6 @@ class DaskClusterManager:
         t = cluster.adapt(minimum=minimum, maximum=maximum)
         if isawaitable(t):
             await t
-        #print(f"cluster: {cluster.name}")
-        #synccluster = Gateway().connect(cluster.name)
-        #synccluster.adapt(minimum=minimum, maximum=maximum)
-        #del synccluster
-        #asyncio.run(cluster.adapt(minimum=minimum, maximum=maximum))
-        #Gateway().connect(cluster.name).adapt(minimum=minimum, maximum=maximum)
-        #future = asyncio.run_coroutine_threadsafe(
-        #    cluster.gateway._adapt_cluster(cluster.name,minimum=minimum, maximum=maximum), cluster.gateway.loop.asyncio_loop
-        #)
-        #try:
-        #    print( future.result() )
-        #except BaseException:
-        #    print( "future.cancel")
-        #    future.cancel()
-        #    raise
 
         adaptive = Adaptive(minimum=minimum, maximum=maximum)
         self._adaptives[cluster_id] = adaptive
@@ -355,15 +367,8 @@ def make_cluster_model(
     """
     # This would be a great target for a dataclass
     # once python 3.7 is in wider use.
-    caller_frame = inspect.stack()[1]
-    caller_name = caller_frame.function
-    print(f"Caller function: {caller_name}")
-
-    print(f"cluster: {cluster_name}, {cluster_id}")
     try:
         info = cluster.scheduler_info
-        #info = Gateway(asynchronous=True).connect(cluster.name).scheduler_info
-        print(f"scheduler: {info}")
     except AttributeError:
         info = cluster.scheduler.identity()
     try:
