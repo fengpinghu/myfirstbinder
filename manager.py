@@ -66,7 +66,7 @@ async def make_cluster(configuration: dict) -> Cluster:
         *dask.config.get("labextension.factory.args"), **kwargs, asynchronous=True
     )
 
-    save_tls_credentials(cluster)
+    save_tls_credentials(self.gateway.get_cluster(cluster.name))
 
     configuration = dask.config.merge(
         dask.config.get("labextension.default"), configuration
