@@ -55,7 +55,7 @@ def save_tls_credentials(cluster):
     print(f"Saved TLS key to {key_path}")
     
 
-async def make_cluster(gw,configuration: dict) -> Cluster:
+async def make_cluster(configuration: dict) -> Cluster:
     module = importlib.import_module(dask.config.get("labextension.factory.module"))
     Cluster = getattr(module, dask.config.get("labextension.factory.class"))
 
@@ -66,7 +66,6 @@ async def make_cluster(gw,configuration: dict) -> Cluster:
         *dask.config.get("labextension.factory.args"), **kwargs, asynchronous=True
     )
 
-    save_tls_credentials(gw.get_cluster(cluster.name))
 
     configuration = dask.config.merge(
         dask.config.get("labextension.default"), configuration
@@ -144,8 +143,10 @@ class DaskClusterManager:
         if not cluster_id:
             cluster_id = str(uuid4())
 
-        cluster, adaptive = await make_cluster(self.gateway, configuration)
+        cluster, adaptive = await make_cluster(configuration)
         self._n_clusters += 1
+
+        save_tls_credentials(self.gateway.get_cluster(cluster.name))
 
         # Check for a name in the config
         if not configuration.get("name"):
@@ -158,6 +159,7 @@ class DaskClusterManager:
         if adaptive:
             self._adaptives[cluster_id] = adaptive
 
+        print(f"{cluster_id}, {cluster_name}, {cluster.name}")
         self._clusters[cluster_id] = cluster
         self._cluster_names[cluster_id] = cluster_name
         return make_cluster_model(cluster_id, cluster_name, cluster, adaptive=adaptive)
