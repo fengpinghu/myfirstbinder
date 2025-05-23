@@ -159,7 +159,8 @@ class DaskClusterManager:
         if adaptive:
             self._adaptives[cluster_id] = adaptive
 
-        print(f"{cluster_id}, {cluster_name}")
+        print(f"{cluster_id}, {cluster_name} {cluster.scheduler_address}")
+        print(f"{cluster_id}, {cluster_name} {cluster.name}")
         self._clusters[cluster_id] = cluster
         self._cluster_names[cluster_id] = cluster_name
         return make_cluster_model(cluster_id, cluster_name, cluster, adaptive=adaptive)
