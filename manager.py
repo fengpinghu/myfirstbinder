@@ -159,9 +159,7 @@ class DaskClusterManager:
             self._adaptives[cluster_id] = adaptive
 
         print(f"{cluster_id}, {cluster_name} {cluster.name}")
-        name = cluster.name
-        print(f"{cluster_id}, {cluster_name} {name}")
-        save_tls_credentials(self.gateway.get_cluster(name))
+        save_tls_credentials( await self.gateway.get_cluster(cluster.name))
 
         self._clusters[cluster_id] = cluster
         self._cluster_names[cluster_id] = cluster_name
