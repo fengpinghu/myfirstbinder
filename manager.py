@@ -34,16 +34,19 @@ import os
 def save_tls_credentials(cluster):
     """
     Saves the TLS certificate and key of a Dask-Gateway cluster object to files
-    in the user's ~/.config/dask/ directory.
+    in the user's ~/.config/dask/tls directory with proper extensions.
 
     Args:
         cluster: A Dask-Gateway cluster object with `tls_cert`, `tls_key`, and `name` attributes.
     """
-    config_dir = os.path.join(os.path.expanduser("~"), ".config", "dask")
+    config_dir = os.path.join(os.path.expanduser("~"), ".config", "dask", "tls")
     os.makedirs(config_dir, exist_ok=True)
 
-    cert_path = os.path.join(config_dir, f"cert_{cluster.name}")
-    key_path = os.path.join(config_dir, f"key_{cluster.name}")
+    cert_path = os.path.join(config_dir, f"{cluster.name}.pem")
+    key_path = os.path.join(config_dir, f"{cluster.name}.key")
+
+    os.makedirs(os.path.dirname(cert_path), exist_ok=True)
+    os.makedirs(os.path.dirname(key_path), exist_ok=True)
 
     with open(cert_path, "w") as cert_file:
         cert_file.write(cluster.tls_cert)
@@ -53,7 +56,6 @@ def save_tls_credentials(cluster):
 
     print(f"Saved TLS cert to {cert_path}")
     print(f"Saved TLS key to {key_path}")
-    
 
 async def make_cluster(configuration: dict) -> Cluster:
     module = importlib.import_module(dask.config.get("labextension.factory.module"))
