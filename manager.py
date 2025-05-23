@@ -146,7 +146,6 @@ class DaskClusterManager:
         cluster, adaptive = await make_cluster(configuration)
         self._n_clusters += 1
 
-        save_tls_credentials(self.gateway.get_cluster(f"{cluster.name}"))
 
         # Check for a name in the config
         if not configuration.get("name"):
@@ -160,6 +159,8 @@ class DaskClusterManager:
             self._adaptives[cluster_id] = adaptive
 
         print(f"{cluster_id}, {cluster_name} {cluster.name}")
+        save_tls_credentials(self.gateway.get_cluster(f"{cluster.name}"))
+
         self._clusters[cluster_id] = cluster
         self._cluster_names[cluster_id] = cluster_name
         return make_cluster_model(cluster_id, cluster_name, cluster, adaptive=adaptive)
