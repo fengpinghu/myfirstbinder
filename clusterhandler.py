@@ -61,10 +61,12 @@ class DaskClusterHandler(APIHandler):
             )
 
         try:
+            print(f"put: {cluster_id}")
             cluster_model = await manager.start_cluster(cluster_id)
             self.set_status(200)
             self.finish(json.dumps(cluster_model))
         except Exception as e:
+            print(f"put exception: {cluster_id}")
             raise web.HTTPError(500, str(e))
 
     @web.authenticated
