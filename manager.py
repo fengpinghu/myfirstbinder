@@ -14,6 +14,7 @@ from dask.utils import format_bytes
 from tornado.ioloop import IOLoop
 from tornado.concurrent import Future
 from dask_gateway import Gateway
+import asyncio
 
 
 # A type for a dask cluster model: a serializable
@@ -145,7 +146,10 @@ class DaskClusterManager:
         if not cluster_id:
             cluster_id = str(uuid4())
 
+        print(f"start_cluster_1: {cluster_id}")
+        await asyncio.sleep(61)
         cluster, adaptive = await make_cluster(configuration)
+        print(f"start_cluster_2: {cluster.name}")
         self._n_clusters += 1
 
 
