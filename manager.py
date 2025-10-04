@@ -147,7 +147,7 @@ class DaskClusterManager:
             cluster_id = str(uuid4())
 
         print(f"start_cluster_1: {cluster_id}")
-        await asyncio.sleep(21)
+        await asyncio.sleep(61)
         cluster, adaptive = await make_cluster(configuration)
         print(f"start_cluster_2: {cluster.name}")
         self._n_clusters += 1
