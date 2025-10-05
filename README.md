@@ -1,7 +1,7 @@
 # Instructions
 # test
 
-to access kubernetes within notebook 
+to access kubernetes within notebook
 
 ## step 1 - set PATH
 ```sh
