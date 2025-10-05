@@ -4,4 +4,4 @@ dask-gateway==2024.1.0
 dask[array]==2025.1.0
 numpy==1.26.3
 bokeh
-dask-labextension @ git+https://github.com/fengpinghu/dask-labextension.git
+dask-labextension @  git+https://github.com/fengpinghu/dask-labextension.git
