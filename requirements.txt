@@ -7,6 +7,4 @@ bokeh
 
 dask-labextension @  git+https://github.com/fengpinghu/dask-labextension.git
 
-jupyter-ai==2.5.0
-pydantic>=2.0,<3
-langchain>=0.1.0
+jupyter-ai>=2.9.0,<3
