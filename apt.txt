@@ -1,0 +1,4 @@
+xvfb
+x11vnc
+novnc
+x11-apps
