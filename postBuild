@@ -13,7 +13,7 @@ cp -f /home/jovyan/dask-array-distributed.ipynb /demo/dask-array-distributed.ipy
 #cp -f /home/jovyan/manager.py /srv/conda/envs/notebook/lib/python3.11/site-packages/dask_labextension/manager.py
 #cp -f /home/jovyan/clusterhandler.py /srv/conda/envs/notebook/lib/python3.11/site-packages/dask_labextension/clusterhandler.py
 cp -f /home/jovyan/client.py /srv/conda/envs/notebook/lib/python3.11/site-packages/dask_gateway/client.py
-curl -fsSL https://code-server.dev/install.sh | sh -s -- --method standalone --prefix="${CONDA_PREFIX}"
+curl -fsSL https://code-server.dev/install.sh | sh -s -- --method standalone --prefix="/srv/conda/envs/notebook"
 #cp -f /home/jovyan/jupyter_server_config.py /home/jovyan/.jupyter/jupyter_server_config.py
 #cp -f /home/jovyan/handlers.py /srv/conda/envs/notebook/lib/python3.11/site-packages/jupyter_server_proxy/handlers.py  
 #cp -f /home/jovyan/dashboardhandler.py /srv/conda/envs/notebook/lib/python3.11/site-packages/dask_labextension/dashboardhandler.py
