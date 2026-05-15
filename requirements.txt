@@ -6,3 +6,5 @@ numpy==1.26.3
 bokeh
 
 dask-labextension @  git+https://github.com/fengpinghu/dask-labextension.git
+
+jupyter-ai
