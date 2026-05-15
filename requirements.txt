@@ -8,3 +8,4 @@ bokeh
 dask-labextension @  git+https://github.com/fengpinghu/dask-labextension.git
 
 jupyter-ai
+jupyter-ai-agents
