@@ -9,3 +9,5 @@ dask-labextension @  git+https://github.com/fengpinghu/dask-labextension.git
 
 jupyter-ai>=2.9.0,<3
 langchain-openai
+jupyter-server-proxy
+websockify
